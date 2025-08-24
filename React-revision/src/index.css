@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -9,33 +11,338 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #fff;
+  background: #0a0a0a;
+  font-family: 'Orbitron', monospace;
+  color: #00ffff;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Retro grid background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Animated corner decorations */
+body::after {
+  content: '◢ ◣ ◥ ◤';
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  place-items: start;
+  font-size: 2rem;
+  color: #ff0080;
+  text-shadow: 0 0 20px currentColor;
+  animation: pulse 2s infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes neonGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 10px #00ffff,
+      0 0 20px #00ffff,
+      0 0 30px #00ffff,
+      inset 0 0 10px rgba(0, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 15px #00ffff,
+      0 0 25px #00ffff,
+      0 0 35px #00ffff,
+      inset 0 0 15px rgba(0, 255, 255, 0.2);
+  }
 }
 
 .board {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  padding: 30px;
+  border: 3px solid #00ffff;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 0 20px #00ffff,
+    0 0 40px #00ffff,
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  position: relative;
+  animation: neonGlow 3s infinite;
+}
+
+.board::before {
+  content: '▼ TIC-TAC-TOE ▼';
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ff0080;
+  text-shadow: 
+    0 0 10px #ff0080,
+    0 0 20px #ff0080;
+  white-space: nowrap;
+  letter-spacing: 3px;
 }
 
 .board-row {
   display: flex;
-  gap: 4px;
+  gap: 8px;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  border: 2px solid #ff0080;
+  background: rgba(255, 0, 128, 0.1);
+  color: #ff0080;
+  text-shadow: 0 0 15px #ff0080;
+  box-shadow: 
+    0 0 15px rgba(255, 0, 128, 0.3),
+    inset 0 0 15px rgba(255, 0, 128, 0.1);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .square {
-  width: 48px;
-  height: 48px;
+  width: 80px;
+  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #222;
-  font-size: 1.5rem;
-  background: none;
+  border: 2px solid #00ffff;
+  font-size: 2.5rem;
+  font-weight: 900;
+  font-family: 'Orbitron', monospace;
+  background: rgba(0, 0, 0, 0.7);
   cursor: pointer;
-  transition: background 0.1s;
+  transition: all 0.3s ease;
+  color: #00ffff;
+  text-shadow: 0 0 15px currentColor;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.square::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
 .square:hover {
-  background: #f5f5f5;
+  background: rgba(0, 255, 255, 0.1);
+  border-color: #ff0080;
+  color: #ff0080;
+  text-shadow: 0 0 20px #ff0080;
+  box-shadow: 
+    0 0 20px rgba(255, 0, 128, 0.5),
+    inset 0 0 15px rgba(255, 0, 128, 0.2);
+  transform: scale(1.05);
+}
+
+.square:hover::before {
+  left: 100%;
+}
+
+/* X styling */
+.square:contains('X') {
+  color: #ff0080;
+  text-shadow: 0 0 20px #ff0080;
+}
+
+/* O styling - using a more specific approach */
+.square {
+  /* Default for empty squares */
+}
+
+/* When square contains X */
+.square[data-value="X"] {
+  color: #ff0080 !important;
+  text-shadow: 0 0 20px #ff0080 !important;
+}
+
+/* When square contains O */
+.square[data-value="O"] {
+  color: #ff0080 !important;
+  text-shadow: 0 0 20px #ff0080 !important;
+}
+
+.square:active {
+  transform: scale(0.95);
+}
+
+/* Glitch effect for winner */
+@keyframes glitch {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-2px); }
+  40% { transform: translateX(2px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+
+/* Neon green highlight for winning squares */
+@keyframes neonWin {
+  0% {
+    box-shadow:
+      0 0 10px rgba(57, 255, 20, 0.8),
+      0 0 20px rgba(57, 255, 20, 0.6),
+      inset 0 0 10px rgba(57, 255, 20, 0.2);
+  }
+  100% {
+    box-shadow:
+      0 0 20px rgba(57, 255, 20, 1),
+      0 0 35px rgba(57, 255, 20, 0.9),
+      inset 0 0 15px rgba(57, 255, 20, 0.3);
+  }
+}
+
+.square.winner {
+  border-color: #39ff14 !important; /* neon green */
+  color: #39ff14 !important;
+  text-shadow: 0 0 20px #39ff14 !important;
+  animation: neonWin 1.2s ease-in-out infinite alternate;
+}
+
+.status:contains('Winner') {
+  animation: glitch 0.3s infinite;
+  color: #00ff80;
+  border-color: #00ff80;
+  text-shadow: 0 0 25px #00ff80;
+  box-shadow: 
+    0 0 25px rgba(0, 255, 128, 0.5),
+    inset 0 0 20px rgba(0, 255, 128, 0.2);
+}
+
+#resetbtn {
+  margin-top: 30px;
+  padding: 15px 30px;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ff0080;
+  background: rgba(0, 0, 0, 0.8);
+  border: 2px solid #ff0080;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px #ff0080;
+  box-shadow: 
+    0 0 15px rgba(255, 0, 128, 0.3),
+    inset 0 0 10px rgba(255, 0, 128, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+#resetbtn::before {
+  content: '◀ ';
+}
+
+#resetbtn::after {
+  content: ' ▶';
+}
+
+#resetbtn::before,
+#resetbtn::after {
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+  animation: pulse 1.5s infinite alternate;
+}
+
+#resetbtn:hover {
+  color: #00ffff;
+  border-color: #00ffff;
+  text-shadow: 0 0 20px #00ffff;
+  box-shadow: 
+    0 0 25px rgba(0, 255, 255, 0.5),
+    inset 0 0 15px rgba(0, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+#resetbtn:hover::before,
+#resetbtn:hover::after {
+  color: #ff0080;
+  text-shadow: 0 0 15px #ff0080;
+}
+
+#resetbtn:active {
+  transform: scale(0.98);
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+/* Scan line effect for reset button */
+#resetbtn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+  transition: left 0.6s;
+}
+
+#resetbtn:hover::after {
+  left: 100%;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .square {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+  
+  .board {
+    padding: 20px;
+  }
+  
+  .board::before {
+    font-size: 1.2rem;
+    top: -40px;
+  }
+  
+  #resetbtn {
+    padding: 12px 24px;
+    font-size: 1rem;
+    margin-top: 20px;
+  }
 }
