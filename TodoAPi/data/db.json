@@ -1,0 +1,16 @@
+{
+  "todos": [
+    {
+      "id": "559ab313-2142-4cfe-8db4-0c655a58c631",
+      "title": "Buy milk",
+      "completed": false,
+      "createdAt": "2025-09-10T20:21:20.545Z"
+    },
+    {
+      "id": "6640f880-efa6-4a24-9c45-bb11195e296e",
+      "title": "Buy milk",
+      "completed": false,
+      "createdAt": "2025-09-10T20:30:06.531Z"
+    }
+  ]
+}
